@@ -11,9 +11,9 @@ export default new function () {
   };
 
   this.Tag = function (tag, props, defProps) {
-    return this._Waterfall(this, function () {
-      const payload = { type: '=:node', tag, props, defProps: { __: defProps }, children: { __: this._ast } };
-      return this._parent.then('Web.HTML:append', { flow: '$:@', struct: payload });
+    return new this.constructor(this, function () {
+      const payload = { type: '=:node', tag, props, defProps: { __: defProps }, children: { __: this.$ast } };
+      return this.$parent.then('Web.HTML:append', { flow: '$:@', struct: payload });
     });
   };
 

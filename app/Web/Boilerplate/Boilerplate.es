@@ -2,11 +2,11 @@
 export default function (node, logger) {
 
   node.on('empty-page')
-    .load('app/Web/web-syntax.es')
+    .load('app/Web/syntax.es')
     ._html('$:doctype', '<!DOCTYPE html>\n')
     ._Tag('html', '$:html', { lang: 'en', dir: 'ltr' })
     .  _Tag('head')
-    .    _Tag('title')._text('$:title', 'YoloJS Single Page').end()
+    .    _Tag('title')._text('$:title', 'YoloJS Web Boilerplate').end()
     .    Block('meta')
     .      _tag('meta', null, { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' })
     .      _tag('meta', null, { 'http-equiv': 'Content-Script-Type', content: 'text/javascript' })
