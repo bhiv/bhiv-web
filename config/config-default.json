@@ -1,0 +1,9 @@
+{ "Instances":
+  { "Router": "Router"
+  , "Router.Web": "Adapter.Http.Server"
+  }
+, "Data":
+  { "Router": { "routes": [ "config/router-http.map" ] }
+  , "Router.Web": { "ip": "0.0.0.0", "port": 8080 }
+  }
+}
