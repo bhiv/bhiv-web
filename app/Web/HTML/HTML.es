@@ -5,10 +5,20 @@ export default function (node, logger) {
     return value;
   };
 
-  const tags = { iframe: { autoClose: false }
-               , script: { autoClose: false }
-               , img: { props: { alt: '' } }
-               , button: { autoClose: false }
+  const tags = { area: { leaf: true }
+               , base: { leaf: true }
+               , basefont: { leaf: true }
+               , br: { leaf: true }
+               , col: { leaf: true }
+               , embed: { leaf: true }
+               , img: { props: { alt: '' }, leaf: true }
+               , input: { leaf: true }
+               , link: { leaf: true }
+               , meta: { leaf: true }
+               , param: { leaf: true }
+               , source: { leaf: true }
+               , track: { leaf: true }
+               , wbr: { leaf: true }
                };
 
   node.on('append', function ({ flow, struct }, callback) {
@@ -45,18 +55,18 @@ export default function (node, logger) {
         if (config.props[prop] == null) continue ;
         construction.push('="', escape(struct.props[prop]), '"');
       }
-      if (struct.children) {
+      if (config.leaf) {
+        construction.push('/>');
+        return callback(null, flow);
+      } else if (struct.children) {
         construction.push('>');
         return this.execute(struct.children, flow, (err, result) => {
           if (err) return callback(err);
           construction.push('</', struct.tag, '>');
           return callback(null, flow);
         });
-      } else if (config.autoClose === false) {
-        construction.push('></', struct.tag, '>');
-        return callback(null, flow);
       } else {
-        construction.push('/>');
+        construction.push('></', struct.tag, '>');
         return callback(null, flow);
       }
     default:

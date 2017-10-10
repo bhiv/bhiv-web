@@ -1,0 +1,9 @@
+---
+  Instances: {}
+  Data:
+    Web.Server:
+      routes:
+        bhiv-web-runtime:
+          method: "GET"
+          path: "/_web/runtime.js"
+          handler: "Web.Runtime:http-get"
