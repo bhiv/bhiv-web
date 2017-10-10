@@ -12,7 +12,9 @@ export default new function () {
 
   this.Tag = function (tag, props, defProps) {
     return new this.constructor(this, function () {
-      const payload = { type: '=:node', tag, props, defProps: { __: defProps }, children: { __: this.$ast } };
+      const payload = { type: '=:node', tag, props, defProps: { __: defProps }
+                      , children: { __: this.$ast }
+                      };
       return this.$parent.then('Web.HTML:append', { flow: '$:@', struct: payload });
     });
   };

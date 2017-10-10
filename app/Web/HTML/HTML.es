@@ -8,6 +8,7 @@ export default function (node, logger) {
   const tags = { iframe: { autoClose: false }
                , script: { autoClose: false }
                , img: { props: { alt: '' } }
+               , button: { autoClose: false }
                };
 
   node.on('append', function ({ flow, struct }, callback) {
@@ -52,12 +53,14 @@ export default function (node, logger) {
           return callback(null, flow);
         });
       } else if (config.autoClose === false) {
-        construction.push('</', struct.tag, '>');
+        construction.push('></', struct.tag, '>');
+        return callback(null, flow);
       } else {
         construction.push('/>');
         return callback(null, flow);
       }
     default:
+      logger.notice(struct);
       return callback(new Error('Unknown construction type'));
     }
   });
