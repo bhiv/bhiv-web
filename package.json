@@ -1,12 +1,20 @@
 {
   "name": "bhiv-web",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Bhiv module for web rendering",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": [
+    "bhiv",
+    "web",
+    "html",
+    "boilerplate"
+  ],
+  "author": "Nicolas Pelletier",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^4.0.1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "escape-html": "^1.0.3"
+  }
 }
