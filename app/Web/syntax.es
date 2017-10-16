@@ -2,7 +2,7 @@ export default new function () {
   const HTML = this;
 
   const reduce = function (struct) {
-    return { $: 'Web.HTML:reduce', _: { flow: '$:@', struct } };
+    return { $: 'Web.HTML:reduce', _: { flow: '$:@', struct: { __: struct } } };
   };
 
   this.empty = function () {
@@ -13,7 +13,7 @@ export default new function () {
     Bhiv.Assert.hasOneString([html, altHtml], 'Some html is required');
     const struct = { type: 'html-unsafe' };
     if (html != null) struct.html = html;
-    if (altHtml != null) struct.altHtml = { __: altHtml };
+    if (altHtml != null) struct.altHtml = altHtml;
     return this.$push(reduce(struct));
   };
 
@@ -21,15 +21,15 @@ export default new function () {
     Bhiv.Assert.hasOneString([text, altText], 'Some text is required');
     const struct = { type: 'html-text' };
     if (text != null) struct.text = text;
-    if (altText != null) struct.altText = { __: altText };
+    if (altText != null) struct.altText = altText;
     return this.$push(reduce(struct));
   };
 
   this.tag = function (tag, props, defProps) {
     Bhiv.Assert.isString(tag, 'Tag name is required');
-    const struct = { type: 'html-node' };
+    const struct = { type: 'html-node', tag };
     if (props != null) struct.props = props;
-    if (defProps != null) struct.defProps = { __: defProps };
+    if (defProps != null) struct.defProps = defProps;
     return this.$push(reduce(struct));
   };
 
@@ -65,10 +65,10 @@ export default new function () {
     });
   };
 
-  this.Block = function () {
-    const args = arguments;
+  this.HtmlBlock = function (name) {
     return new Bhiv.AST.Chain(this, function () {
-      const block = this.$parent.Block.apply(this.$parent, args);
+      const ast = reduce({ type: 'html-fragment', children: null });
+      const block = this.$parent.Block(name, { ast, at: '_.struct.__.children' });
       if (this.$chain.length > 0) {
         const fragment = HTML.Fragment.call(block);
         fragment.$chain = this.$chain;
