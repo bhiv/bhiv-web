@@ -74,6 +74,7 @@ export default function (node, logger) {
       if (!config.leaf) toResolve.child = struct.child;
       return this.run(toResolve, flow, (err, { props, child }) => {
         if (err) return callback(err);
+        if (props == null) props = {};
         const construction = [];
         construction.push('<', struct.tag);
         for (let prop in props) {
@@ -82,13 +83,13 @@ export default function (node, logger) {
           construction.push('="', escape(props[prop]), '"');
         }
         for (let prop in struct.defProps) {
-          if (props && prop in props) continue ;
+          if (prop in props) continue ;
           construction.push(' ', prop);
           if (struct.defProps[prop] == null) continue ;
           construction.push('="', escape(struct.defProps[prop]), '"');
         }
         for (let prop in config.props) {
-          if (props && prop in props) continue ;
+          if (prop in props) continue ;
           if (struct.defProps && prop in struct.defProps) continue ;
           construction.push(' ', prop);
           if (config.props[prop] == null) continue ;

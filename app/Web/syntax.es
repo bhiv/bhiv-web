@@ -25,8 +25,9 @@ export default new function () {
     return this.$push(reduce(struct));
   };
 
-  this.tag = function (tag, props, defProps) {
+  this.tag = function (tag, defProps, props) {
     Bhiv.Assert.isString(tag, 'Tag name is required');
+    Bhiv.Assert.isObjectOrNull(defProps, 'Bad argument');
     const struct = { type: 'html-node', tag };
     if (props != null) struct.props = props;
     if (defProps != null) struct.defProps = defProps;
@@ -47,8 +48,9 @@ export default new function () {
     });
   };
 
-  this.Tag = function (tag, props, defProps) {
+  this.Tag = function (tag, defProps, props) {
     Bhiv.Assert.isString(tag, 'Tag name is required');
+    Bhiv.Assert.isObjectOrNull(defProps, 'Bad argument');
     return new Bhiv.AST.Chain(this, function () {
       const struct = { type: 'html-node', tag };
       if (props != null) struct.props = props;
@@ -77,6 +79,18 @@ export default new function () {
         HTML.empty.call(block);
       }
       return block.end.apply(block, arguments);
+    });
+  };
+
+  this.HtmlThen = function (fqn, glue) {
+    Bhiv.Assert.isFqn(fqn);
+    const ast = { $: fqn };
+    if (arguments.length > 1) ast._ = glue;
+    const modifier = children => reduce({ type: 'html-fragment', children });
+    return new Bhiv.AST.Template(this, modifier, function () {
+      for (var key in this.$changes) break ;
+      if (key) ast.$changes = this.$changes;
+      return this.$parent.$pushWithMerge(ast);
     });
   };
 
