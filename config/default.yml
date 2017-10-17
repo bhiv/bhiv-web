@@ -1,4 +1,6 @@
 ---
+  Syntaxes:
+    HTML: 'app/Web/syntax.es'
   Instances: {}
   Data:
     Web.Server:

@@ -2,7 +2,7 @@
 export default function (node, logger) {
 
   node.on('default-page')
-    .load('app/Web/syntax.es')
+    .load('HTML')
     .Fragment()
     .  html('$:doctype', '<!DOCTYPE html>\n')
     .  Tag('html', { lang: 'en', dir: 'ltr' }, '$:htmlProps')
